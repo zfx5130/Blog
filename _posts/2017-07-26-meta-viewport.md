@@ -1,15 +1,53 @@
 ---
 layout: post
-title:  "由移动端 1px 过粗引发的 viewport 探究"
+title:  "我的博客"
 date:   2017-07-26 17:31:30 +0800
 categories: [Tech]
-excerpt: UI 一直嫌弃 1px 分割线过粗？解决问题之前，先花一点时间研究下问题的原因吧。
+excerpt: UI 一多福多寿
 tags:
-  - CN
-  - front-end
+  - 测试
+  - 位3v
   - Mobile
   - html
 ---
+
+
+
+#### 那么1
+
+##### 爱迪生
+
+
+
+- 的
+- 谁说的
+
+~~~~
+name  
+
+
+
+~~~~
+
+
+
+**ads**
+
+~~sdf~~
+
+
+
+![]()
+
+[百度](www.baidu.com)
+
+
+
+
+
+
+
+
 
 在探究 viewport 前，需要了解一些概念：
 
@@ -19,7 +57,7 @@ tags:
 
 > 设备像素比（device pixel ratio）：简称 dpr，定义了物理像素和设备独立像素的对应关系，它的值可以按如下的公式的得到：
 > > 设备像素比 = 物理像素 / 设备独立像素
-> 
+>
 > 在 JS 中，可以通过`window.devicePixelRatio`获取到当前设备的     dpr。在 CSS 中，可以通过`-webkit-device-pixel-ratio`，`-webkit-min-device-pixel-ratio`和`-webkit-max-device-pixel-ratio`进行媒体查询，对不同 dpr 的设备，做一些样式适配。
 
 以 iPhone6 为例：
@@ -79,17 +117,17 @@ viewport 主要是用来限制 html 元素大小的。在 PC 端，viewport 的�
 > `<meta name="viewport" content="name=value,name=value">`
 >
 > content 中的 name 可选值有六个：
->> width，layout viewport 的大小。
+> > width，layout viewport 的大小。
 >
->> initial-scale，页面的初始放大系数。
+> > initial-scale，页面的初始放大系数。
 >
->> minimum-scale，最小放大系数。
+> > minimum-scale，最小放大系数。
 >
->> maximum-scale，最大放大系数。
+> > maximum-scale，最大放大系数。
 >
->> height，没有什么用。
+> > height，没有什么用。
 >
->> user-scalable，为 no 的时候，不能放大。
+> > user-scalable，为 no 的时候，不能放大。
 
 当我们设置`width=device-width`和`initial-scale=1`的时候，layout viewport 的大小等于 ideal viewport。所有的 scale 值都是基于 ideal viewport 的，也就是说，maximum-scale=3 意味着最大的放大值是 ideal viewport 的 300%。
 
@@ -106,7 +144,7 @@ viewport 主要是用来限制 html 元素大小的。在 PC 端，viewport 的�
 > layout viewport 和 vitual viewport 都是以 CSS 像素度量的
 >
 > visual viewport width = ideal viewport width / zoom factor
-> 
+>
 > 设置`width=device-width; initial-scale=1`可以使 layout viewport=ideal viewport=visual viewport，此时一个 CSS 像素等于一个 dips，当页面放大或缩小时，一个 CSS 像素的大小等于 dip * zoom factor 的大小
 
 那么最终来看看移动端为啥 1px 变粗了。这主要是因为，视觉稿以 iPhone6 为基准，画布大小 750×1334（物理像素），根据视觉稿写代码时，最简单的做法是把所有标注除以 2，如 22px 的字号，转为 CSS 是 11px，这都没有问题，但视觉稿中的 1px 分割线，表示一个物理像素，而我们在写代码时，通常不会再把 1px 除以 2 了（只有高版本的 iOS 支持 0.5px）。当我们设置`width=device-width; initial-scale=1`后，layout viewport = ideal viewport = 375×667，一个 CSS 像素为两个物理像素，线自然就变粗啦。到底如何解决这个 1px 问题呢，网上有很多办法，但都不尽善尽美，后续经过自己实战，再写一篇总结吧。
